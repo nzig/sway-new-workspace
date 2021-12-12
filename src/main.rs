@@ -7,12 +7,10 @@ fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc:
     let workspaces = conn.get_workspaces()?;
     let mut ids: Vec<i32> = workspaces.iter().map(|w| w.num).collect();
     ids.sort_unstable();
-    for i in 1..ids.len() + 1 {
-        if ids[i - 1] != i as i32 {
-            return Ok(i as i32);
-        }
-    }
-    Ok((ids.len() + 1) as i32)
+    Ok(ids
+        .windows(2)
+        .find(|w| w[0] + 1 != w[1])
+        .map_or(ids.len() as i32 + 1, |w| w[0] + 1))
 }
 
 fn main() -> Result<(), swayipc::Error> {
@@ -25,12 +23,12 @@ fn main() -> Result<(), swayipc::Error> {
         .setting(AppSettings::SubcommandRequired)
         .get_matches();
     let mut conn = swayipc::Connection::new()?;
-    match params.subcommand_name() {
-        Some("open") => {
+    match params.subcommand_name().unwrap() {
+        "open" => {
             let next_id = next_workspace_number(&mut conn)?;
             conn.run_command(format!("workspace {}", next_id))?;
         }
-        Some("move") => {
+        "move" => {
             let next_id = next_workspace_number(&mut conn)?;
             conn.run_command(format!("move container to workspace {}", next_id))?;
             conn.run_command(format!("workspace {}", next_id))?;
