@@ -9,8 +9,8 @@ fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc:
     ids.sort_unstable();
     Ok(ids
         .windows(2)
-        .find(|w| w[0] + 1 != w[1])
-        .map_or(ids.len() as i32 + 1, |w| w[0] + 1))
+        .find(|(cur, next)| cur + 1 != next)
+        .map_or(ids.len() as i32 + 1, |(cur, _)| cur + 1))
 }
 
 fn main() -> Result<(), swayipc::Error> {
@@ -23,7 +23,7 @@ fn main() -> Result<(), swayipc::Error> {
         .setting(AppSettings::SubcommandRequired)
         .get_matches();
     let mut conn = swayipc::Connection::new()?;
-    match params.subcommand_name().unwrap() {
+    match params.subcommand_name().expect("unexpected subcommand") {
         "open" => {
             let next_id = next_workspace_number(&mut conn)?;
             conn.run_command(format!("workspace {}", next_id))?;
