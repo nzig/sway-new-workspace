@@ -2,15 +2,18 @@ use clap::{
     app_from_crate, crate_authors, crate_description, crate_name, crate_version, AppSettings,
     SubCommand,
 };
+use itertools::Itertools;
 
 fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc::Error> {
     let workspaces = conn.get_workspaces()?;
     let mut ids: Vec<i32> = workspaces.iter().map(|w| w.num).collect();
     ids.sort_unstable();
+    let len = ids.len() as i32;
     Ok(ids
-        .windows(2)
-        .find(|(cur, next)| cur + 1 != next)
-        .map_or(ids.len() as i32 + 1, |(cur, _)| cur + 1))
+        .into_iter()
+        .tuple_windows()
+        .find(|(cur, next)| cur + 1 != *next)
+        .map_or(len + 1, |(cur, _)| cur + 1))
 }
 
 fn main() -> Result<(), swayipc::Error> {
