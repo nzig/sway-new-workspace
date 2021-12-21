@@ -1,12 +1,13 @@
 [package]
 name = "sway-new-workspace"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "A command to create new Sway workpaces"
-authors = ["Nadav Zingerman <372858+nzig@users.noreply.github.com>"]
+authors = ["Nadav Zingerman <7372858+nzig@users.noreply.github.com>"]
 license = "MIT"
 repository = "https://github.com/nzig/sway-new-workspace/"
 
 [dependencies]
 swayipc = "2.7"
 clap = "2.34.0"
+itertools = "0.10.2"
