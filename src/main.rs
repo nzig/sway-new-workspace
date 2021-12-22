@@ -2,7 +2,6 @@ use clap::{
     app_from_crate, crate_authors, crate_description, crate_name, crate_version, AppSettings,
     SubCommand,
 };
-use itertools::Itertools;
 
 fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc::Error> {
     let workspaces = conn.get_workspaces()?;
@@ -11,9 +10,9 @@ fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc:
     let len = ids.len() as i32;
     Ok(ids
         .into_iter()
-        .tuple_windows()
-        .find(|(cur, next)| cur + 1 != *next)
-        .map_or(len + 1, |(cur, _)| cur + 1))
+        .enumerate()
+        .find(|&(idx, workspace_num)| idx as i32 + 1 != workspace_num)
+        .map_or(len + 1, |(idx, _)| idx as i32 + 1))
 }
 
 fn main() -> Result<(), swayipc::Error> {
