@@ -8,5 +8,5 @@ license = "MIT"
 repository = "https://github.com/nzig/sway-new-workspace/"
 
 [dependencies]
-swayipc = "2.7"
+swayipc = "3.0"
 clap = "2.34.0"
