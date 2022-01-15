@@ -1,6 +1,6 @@
 [package]
 name = "sway-new-workspace"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 description = "A command to create new Sway workpaces"
 authors = ["Nadav Zingerman <7372858+nzig@users.noreply.github.com>"]
@@ -8,5 +8,5 @@ license = "MIT"
 repository = "https://github.com/nzig/sway-new-workspace/"
 
 [dependencies]
-swayipc = "2.7"
-clap = "2.34.0"
+swayipc = "3.0"
+clap = {version = "3.0.7", features = ["cargo"]}
