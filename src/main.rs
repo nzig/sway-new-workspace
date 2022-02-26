@@ -5,7 +5,7 @@ fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc:
     let mut ids: Vec<i32> = workspaces
         .iter()
         .map(|w| w.num)
-        .filter(|workspace_num| *workspace_num > 0)
+        .filter(|w| *w > 0)
         .collect();
     ids.sort_unstable();
     let len = ids.len() as i32;
