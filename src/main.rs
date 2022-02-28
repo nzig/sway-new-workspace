@@ -2,7 +2,11 @@ use clap::{app_from_crate, App, AppSettings};
 
 fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc::Error> {
     let workspaces = conn.get_workspaces()?;
-    let mut ids: Vec<i32> = workspaces.iter().map(|w| w.num).collect();
+    let mut ids: Vec<i32> = workspaces
+        .iter()
+        .map(|w| w.num)
+        .filter(|w| *w > 0)
+        .collect();
     ids.sort_unstable();
     let len = ids.len() as i32;
     Ok(ids
