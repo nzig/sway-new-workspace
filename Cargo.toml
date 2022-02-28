@@ -1,6 +1,6 @@
 [package]
 name = "sway-new-workspace"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 description = "A command to create new Sway workpaces"
 authors = ["Nadav Zingerman <7372858+nzig@users.noreply.github.com>"]
