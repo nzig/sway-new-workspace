@@ -1,4 +1,4 @@
-use clap::{app_from_crate, App, AppSettings};
+use clap::{command, Command};
 
 fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc::Error> {
     let workspaces = conn.get_workspaces()?;
@@ -17,11 +17,11 @@ fn next_workspace_number(conn: &mut swayipc::Connection) -> Result<i32, swayipc:
 }
 
 fn main() -> Result<(), swayipc::Error> {
-    let params = app_from_crate!()
+    let params = command!()
         .about("A command to create new Sway workpaces")
-        .subcommand(App::new("open").about("Open a new workspace"))
-        .subcommand(App::new("move").about("Move the current container to a new workspace"))
-        .setting(AppSettings::SubcommandRequired)
+        .subcommand(Command::new("open").about("Open a new workspace"))
+        .subcommand(Command::new("move").about("Move the current container to a new workspace"))
+        .subcommand_required(true)
         .get_matches();
     let mut conn = swayipc::Connection::new()?;
     match params.subcommand_name().expect("unexpected subcommand") {
