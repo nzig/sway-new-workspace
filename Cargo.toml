@@ -9,4 +9,4 @@ repository = "https://github.com/nzig/sway-new-workspace/"
 
 [dependencies]
 swayipc = "3.0"
-clap = {version = "3.1.7", features = ["cargo"]}
+clap = {version = "4.0.22", features = ["cargo"]}
